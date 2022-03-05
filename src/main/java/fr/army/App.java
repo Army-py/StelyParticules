@@ -3,6 +3,7 @@ package fr.army;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.sql.SQLException;
 import java.util.Objects;
 
 import org.bukkit.Bukkit;
@@ -17,6 +18,7 @@ import fr.army.events.InventoryClick.MainInventory;
 import fr.army.events.InventoryClick.ParticlesInventory;
 import fr.army.events.InventoryClick.SoundsInventory;
 import fr.army.utils.InventoryGenerator;
+import fr.army.utils.SQLManager;
 
 public class App extends JavaPlugin implements Listener{
 
@@ -25,6 +27,8 @@ public class App extends JavaPlugin implements Listener{
 	public static String permission;
 
 	public static Plugin instance;
+
+	public static SQLManager sqlManager;
 
 	public static YamlConfiguration config;
 	public static YamlConfiguration particlesData;
@@ -47,6 +51,15 @@ public class App extends JavaPlugin implements Listener{
 
 		config = initFile(this.getDataFolder(), "config.yml");
 		permission = config.getString("permission");
+		
+		App.sqlManager = new SQLManager();
+        try {
+            sqlManager.connect();
+            this.getLogger().info("SQL connectée au plugin !");
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+            getServer().getPluginManager().disablePlugin(this);
+        }
 
 		getCommand("stelyparticules").setExecutor(new StelyParticulesCmd());
 		Bukkit.getPluginManager().registerEvents(new ProjectileLaunch(), this);
