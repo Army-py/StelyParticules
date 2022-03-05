@@ -20,9 +20,9 @@ public class MainInventory implements Listener{
 				Player player = (Player) e.getWhoClicked();
 				
 				if(e.getCurrentItem().getType().equals(Material.getMaterial(App.config.getString("main.Particles.itemType")))) {
-					player.openInventory(App.inventory.createParticleInventory());
+					player.openInventory(App.inventory.createParticleInventory(player.getName()));
 				}else if(e.getCurrentItem().getType().equals(Material.getMaterial(App.config.getString("main.Sounds.itemType")))) {
-					player.openInventory(App.inventory.createSoundInventory());
+					player.openInventory(App.inventory.createSoundInventory(player.getName()));
 				}else if(e.getCurrentItem().getType().equals(Material.getMaterial(App.config.getString("main.SoundPack.itemType")))) {
 					soundPackMessage(player);
 					player.closeInventory();

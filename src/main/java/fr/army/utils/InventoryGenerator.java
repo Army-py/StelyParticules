@@ -20,14 +20,14 @@ public class InventoryGenerator {
 			Material material = Material.getMaterial(App.config.getString("main."+str+".itemType"));
 			String name = App.config.getString("main."+str+".itemName");
 
-			inventory.setItem(slot, ItemBuilder.getItem(material, name));
+			inventory.setItem(slot, ItemBuilder.getItem(material, name, false));
 		}
 		
 		return inventory;
 	}
 
 
-	public Inventory createParticleInventory() {
+	public Inventory createParticleInventory(String playername) {
 		Integer slots = App.config.getInt("inventories.particles.slots");
 		String inventoryName = App.config.getString("inventories.particles.name");
 		Inventory inventory = Bukkit.createInventory(null, slots, inventoryName);
@@ -38,13 +38,17 @@ public class InventoryGenerator {
 			Material material = Material.getMaterial(App.config.getString("particles."+str+".itemType"));
 			String name = App.config.getString("particles."+str+".itemName");
 
-			inventory.setItem(slot, ItemBuilder.getItem(material, name));
+			if (Material.getMaterial(App.config.getString("particles."+App.sqlManager.getParticle(playername)+".itemType")).equals(material)){
+				inventory.setItem(slot, ItemBuilder.getItem(material, name, true));
+			}else{
+				inventory.setItem(slot, ItemBuilder.getItem(material, name, false));
+			}
 		}
 		return inventory;
 	}
 
 
-	public Inventory createSoundInventory() {
+	public Inventory createSoundInventory(String playername) {
 		Integer slots = App.config.getInt("inventories.sounds.slots");
 		String inventoryName = App.config.getString("inventories.sounds.name");
 		Inventory inventory = Bukkit.createInventory(null, slots, inventoryName);
@@ -55,7 +59,11 @@ public class InventoryGenerator {
 			Material material = Material.getMaterial(App.config.getString("sounds."+str+".itemType"));
 			String name = App.config.getString("sounds."+str+".itemName");
 
-			inventory.setItem(slot, ItemBuilder.getItem(material, name));
+			if (Material.getMaterial(App.config.getString("sounds."+App.sqlManager.getSound(playername)+".itemType")).equals(material)){
+				inventory.setItem(slot, ItemBuilder.getItem(material, name, true));
+			}else{
+				inventory.setItem(slot, ItemBuilder.getItem(material, name, false));
+			}
 		}
 		return inventory;
 	}
