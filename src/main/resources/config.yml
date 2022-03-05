@@ -3,9 +3,28 @@ permission: "stelyparticules.particules"
 prefix: "§7[§5StelyParticules§7]"
 
 # Messages de téléchargement du pack son
-packMessage: "§aLien du pack son : §cclique ici"
+packMessage: "§aLien du PackSon : §b§o§nclique ici"
 # Lien du pack son
 packUrl: "https://stelycube.fr/p/les-packs"
+
+# Nombre de particules maximum qui peuvent être créées
+maximumParticlesNumber: 50
+
+# Item des cases vide
+emptyCase: BLACK_STAINED_GLASS_PANE
+
+#  Projectiles qui auront des particules lorsqu'ils seront lancés
+particlesProjectiles:
+  - ARROW
+  - TRIDENT
+  - SNOWBALL
+
+# Projectiles qui auront des sons lorsqu'ils seront lancés
+soundsProjectiles:
+  - ARROW
+  - TRIDENT
+  - SNOWBALL
+
 
 # Titre des menus et leur nombre de slots
 # Le nombre de slots peut être augmenté en fonction du tombre d'item dans le menu *
@@ -15,31 +34,31 @@ inventories:
     name: "§5§lStelyParticules"
     slots: 27
   particles: 
-    name: "§5§lParticules"
+    name: "§5§lLes particules"
     slots: 27
   sounds: 
-    name: "§5§lSons"
+    name: "§5§lLes sons"
     slots: 27
 
 # Placement des items du menu principal
 main:
   Particles:
-    itemName: "§5§lParticules"
+    itemName: "§5§lLes particules"
     itemType: BOW
     slot: 11
   Sounds:
-    itemName: "§5§lSons"
+    itemName: "§5§lLes sons"
     itemType: MUSIC_DISC_BLOCKS
     slot: 15
   SoundPack:
-    itemName: "§5§lPack son"
+    itemName: "§5§lLe PackSon"
     itemType: BOOK
     slot: 22
 
 # Placement des items du menu des particules
 particles:
   Flame:
-    itemName: "§b§oFlammes"
+    itemName: "§b§oFlamme"
     itemType: FLINT_AND_STEEL
     slot: 0
     particle: FLAME
@@ -59,12 +78,12 @@ particles:
     slot: 3
     particle: FLASH
   Spit:
-    itemName: "§b§oSpit"
+    itemName: "§b§oCrachat"
     itemType: LLAMA_SPAWN_EGG
     slot: 4
     particle: SPIT
   DamageIndicator:
-    itemName: "§b§oCoeurs"
+    itemName: "§b§oCoeur"
     itemType: IRON_SWORD
     slot: 5
     particle: DAMAGE_INDICATOR
@@ -74,7 +93,7 @@ particles:
     slot: 6
     particle: DRAGON_BREATH
   Note:
-    itemName: "§b§oNotes"
+    itemName: "§b§oNote"
     itemType: NOTE_BLOCK
     slot: 7
     particle: NOTE
@@ -84,7 +103,7 @@ particles:
     slot: 8
     particle: NAUTILUS
   Sneeze:
-    itemName: "§b§oSneeze"
+    itemName: "§b§oAtchoum"
     itemType: SLIME_BALL
     slot: 9
     particle: SNEEZE
@@ -94,17 +113,17 @@ particles:
     slot: 10
     particle: TOTEM
   Witch:
-    itemName: "§b§oWitch"
+    itemName: "§b§oSorcière"
     itemType: WITCH_SPAWN_EGG
     slot: 11
     particle: SPELL_WITCH
   EndRod:
-    itemName: "§b§oBâton de l'End"
+    itemName: "§b§oEnd"
     itemType: END_ROD
     slot: 12
     particle: END_ROD
   CampFire:
-    itemName: "§b§oFeu de camp"
+    itemName: "§b§oFumée"
     itemType: CAMPFIRE
     slot: 13
     particle: CAMPFIRE_COSY_SMOKE
@@ -114,7 +133,7 @@ particles:
     slot: 14
     particle: COMPOSTER
   SporeBlossom:
-    itemName: "§b§oFleur de spore"
+    itemName: "§b§oFleur"
     itemType: SPORE_BLOSSOM
     slot: 15
     particle: SPORE_BLOSSOM_AIR
@@ -123,7 +142,7 @@ particles:
     itemType: ARROW
     slot: 25
   Disable:  # Ne pas toucher au nom 'Disable'
-    itemName: "§b§oDésactiver"
+    itemName: "§c§oDésactiver"
     itemType: BARRIER
     slot: 26
 
@@ -185,6 +204,6 @@ sounds:
     itemType: ARROW
     slot: 25
   Disable:  # Ne pas toucher au nom 'Disable'
-    itemName: "§b§oDésactiver"
+    itemName: "§c§oDésactiver"
     itemType: BARRIER
     slot: 26

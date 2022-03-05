@@ -15,21 +15,16 @@ import net.md_5.bungee.api.chat.TextComponent;
 public class MainInventory implements Listener{
 	@EventHandler
 	public void invev(InventoryClickEvent e) {
-
 		if(e.getClickedInventory() != null && e.getCurrentItem() != null) {
 			if(e.getInventory().getViewers().size() != 0 && e.getInventory().getViewers().get(0).getOpenInventory().getTitle().equals("§5§lStelyParticules")) {
 				Player player = (Player) e.getWhoClicked();
 				
 				if(e.getCurrentItem().getType().equals(Material.getMaterial(App.config.getString("main.Particles.itemType")))) {
-					App.inventory.setname(App.config.getString("inventories.particles.name"));
-					App.inventory.setplayer(player);
-					App.inventory.createParticleInventory();
+					player.openInventory(App.inventory.createParticleInventory());
 				}else if(e.getCurrentItem().getType().equals(Material.getMaterial(App.config.getString("main.Sounds.itemType")))) {
-					App.inventory.setname(App.config.getString("inventories.sounds.name"));
-					App.inventory.setplayer(player);
-					App.inventory.createSoundInventory();
+					player.openInventory(App.inventory.createSoundInventory());
 				}else if(e.getCurrentItem().getType().equals(Material.getMaterial(App.config.getString("main.SoundPack.itemType")))) {
-					Annonce(player);
+					soundPackMessage(player);
 					player.closeInventory();
 					player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0F, 1.0F);
 				}
@@ -38,13 +33,13 @@ public class MainInventory implements Listener{
 		}
 	}
 
-	public final static void Annonce(Player p) {
-		final TextComponent output = new TextComponent(TextComponent.fromLegacyText(App.config.getString("prefix")+" "));
-		final ClickEvent click1D = new ClickEvent(ClickEvent.Action.OPEN_URL, App.config.getString("packUrl"));
+	public final static void soundPackMessage(Player player) {
+		final TextComponent component = new TextComponent(TextComponent.fromLegacyText(App.config.getString("prefix")+" "));
+		final ClickEvent click = new ClickEvent(ClickEvent.Action.OPEN_URL, App.config.getString("packUrl"));
 
-		String clicable = App.config.getString("packMessage");
-		output.addExtra(new ComponentBuilder(new TextComponent(TextComponent.fromLegacyText(clicable))).event(click1D).create()[0]);
+		String message = App.config.getString("packMessage");
+		component.addExtra(new ComponentBuilder(new TextComponent(TextComponent.fromLegacyText(message))).event(click).create()[0]);
 
-		p.spigot().sendMessage(output); 
+		player.spigot().sendMessage(component); 
 	}
 }

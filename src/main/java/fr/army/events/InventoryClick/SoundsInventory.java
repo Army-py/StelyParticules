@@ -44,9 +44,7 @@ public class SoundsInventory implements Listener{
 					Material material = Material.getMaterial(App.config.getString("sounds."+str+".itemType"));
 					
 					if(e.getCurrentItem().getType().equals(Material.getMaterial(App.config.getString("sounds.Back.itemType")))) {
-						App.inventory.setname(App.config.getString("inventories.main.name"));
-						App.inventory.setplayer(player);
-						App.inventory.createMainInventory();
+						player.openInventory(App.inventory.createMainInventory());
 					}else if(e.getCurrentItem().getType().equals(material)) {
 						this.setSave(e, "."+str);
 						e.getWhoClicked().closeInventory();

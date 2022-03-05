@@ -34,6 +34,8 @@ public class App extends JavaPlugin implements Listener{
 	public static File soundsDataFile;
 
 	public void onEnable(){
+		getLogger().info("StelyParticule ON");
+
 		instance = this;
 		this.saveDefaultConfig();
 		
@@ -51,57 +53,12 @@ public class App extends JavaPlugin implements Listener{
 		Bukkit.getPluginManager().registerEvents(new MainInventory(), this);
 		Bukkit.getPluginManager().registerEvents(new ParticlesInventory(), this);
 		Bukkit.getPluginManager().registerEvents(new SoundsInventory(), this);
-
 	}
-	
+
+
 	public void onDisable(){
-
+		getLogger().info("StelyParticule OFF");
 	}
-
-	/*@EventHandler
-	public void move(PlayerMoveEvent e) {
-		Player player = e.getPlayer();
-		Location loc = new Location(player.getWorld(), player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ());
-		loc.add(0, 0.1, 0);
-		Config config = new Config("databasejoueur.yml", StelyParticule.instance);
-
-		if(!config.isNull(player.getName()) && player.hasPermission(permission)) {
-
-			if(config.getBoolean(player.getName()+".Heart") == true) {
-				player.getWorld().spawnParticle(Particle.HEART, loc, 1);
-			}else if(config.getBoolean(player.getName()+".Lava") == true) {
-				player.getWorld().spawnParticle(Particle.DRIP_LAVA, loc, 1);
-			}else if(config.getBoolean(player.getName()+".Water") == true) {
-				player.getWorld().spawnParticle(Particle.DRIP_WATER, loc, 1);
-			}else if(config.getBoolean(player.getName()+".Dolphin") == true) {
-				player.getWorld().spawnParticle(Particle.DOLPHIN, loc, 1);
-			}else if(config.getBoolean(player.getName()+".Spell") == true) {
-				player.getWorld().spawnParticle(Particle.SPELL, loc, 1);
-			}else if(config.getBoolean(player.getName()+".SpellMob") == true) {
-				player.getWorld().spawnParticle(Particle.SPELL_MOB_AMBIENT, loc, 1);
-			}else if(config.getBoolean(player.getName()+".Nautilus") == true) {
-				player.getWorld().spawnParticle(Particle.NAUTILUS, loc, 1);
-			}else if(config.getBoolean(player.getName()+".Note") == true) {
-				player.getWorld().spawnParticle(Particle.NOTE, loc, 1);
-			}else if(config.getBoolean(player.getName()+".SpellWitch") == true) {
-				player.getWorld().spawnParticle(Particle.SPELL_WITCH, loc, 1);
-			}else if(config.getBoolean(player.getName()+".Disable") == true) {
-
-			}
-		}
-		//a garder
-
-		//player.getWorld().spawnParticle(Particle.HEART, loc, 1);
-		//player.getWorld().spawnParticle(Particle.DRIP_LAVA, loc, 1);
-		//player.getWorld().spawnParticle(Particle.DRIP_WATER, loc, 1);
-		//player.getWorld().spawnParticle(Particle.DOLPHIN, loc, 1);
-		//player.getWorld().spawnParticle(Particle.SPELL, loc, 1);
-		//player.getWorld().spawnParticle(Particle.SPELL_MOB_AMBIENT, loc, 1);
-		//player.getWorld().spawnParticle(Particle.NAUTILUS, loc, 1);
-		//player.getWorld().spawnParticle(Particle.NOTE, loc, 1);
-		//player.getWorld().spawnParticle(Particle.SPELL_WITCH, loc, 1);
-
-	}*/
 
 
 	private YamlConfiguration initFile(File dataFolder, String fileName) {
@@ -109,11 +66,11 @@ public class App extends JavaPlugin implements Listener{
         if (!file.exists()) {
             try {
                 Files.copy(Objects.requireNonNull(getResource(fileName)), file.toPath());
-            } catch (IOException ignored) {
-            }
+            } catch (IOException ignored) {}
         }
         return YamlConfiguration.loadConfiguration(file);
     }
+
 
 	public static void saveDataFiles(){
 		try {

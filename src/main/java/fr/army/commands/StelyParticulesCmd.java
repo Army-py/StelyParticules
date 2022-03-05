@@ -14,9 +14,7 @@ public class StelyParticulesCmd implements CommandExecutor{
 		if(args.length == 0) {
 			Player player = (Player) sender;
 			if(player.hasPermission(App.permission)) {
-				App.inventory.setname(App.config.getString("inventories.main.name"));
-				App.inventory.setplayer(player);
-				App.inventory.createMainInventory();
+				player.openInventory(App.inventory.createMainInventory());
 			}
 		}
 		return true;
