@@ -45,6 +45,27 @@ public class SQLManager {
     }
 
 
+    public void createTables(){
+        if (isConnected()){
+            try {
+                PreparedStatement queryParticles = connection.prepareStatement("CREATE TABLE IF NOT EXISTS 'particles' ('id' INTEGER, 'playername' TEXT, 'particle' TEXT, PRIMARY KEY('id' AUTOINCREMENT));");
+                queryParticles.executeUpdate();
+                queryParticles.close();
+
+                PreparedStatement querySounds = connection.prepareStatement("CREATE TABLE IF NOT EXISTS 'sounds' ('id' INTEGER, 'playername' TEXT, 'sound' TEXT, PRIMARY KEY('id' AUTOINCREMENT));");
+                querySounds.executeUpdate();
+                querySounds.close();
+
+                PreparedStatement queryPlayers = connection.prepareStatement("CREATE TABLE IF NOT EXISTS 'players' ('id' INTEGER, 'playername' TEXT, PRIMARY KEY('id' AUTOINCREMENT));");
+                queryPlayers.executeUpdate();
+                queryPlayers.close();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+
     public boolean isRegistered(String playername){
         if(isConnected()){
             try {
@@ -62,16 +83,38 @@ public class SQLManager {
     }
 
 
-    public boolean isDisable(String playername){
+    public boolean isDisableParticles(String playername){
         if(isConnected()){
             try {
                 PreparedStatement query = connection.prepareStatement("SELECT particle FROM particles WHERE playername = ?");
                 query.setString(1, playername);
                 ResultSet result = query.executeQuery();
-                query.close();
+                Boolean disable = null;
                 if (result.next()) {
-                    return result.getString("particle").contains("Disable");
+                    disable = result.getString("particle").contains("Disable");
                 }
+                query.close();
+                return disable;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+
+    public boolean isDisableSounds(String playername){
+        if(isConnected()){
+            try {
+                PreparedStatement query = connection.prepareStatement("SELECT sound FROM sounds WHERE playername = ?");
+                query.setString(1, playername);
+                ResultSet result = query.executeQuery();
+                Boolean disable = null;
+                if (result.next()) {
+                    disable = result.getString("sound").contains("Disable");
+                }
+                query.close();
+                return disable;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -89,14 +132,14 @@ public class SQLManager {
                 queryPlayers.close();
 
                 PreparedStatement queryParticles = connection.prepareStatement("INSERT INTO particles (id, playername, particle) VALUES (null, ?, ?)");
-                queryParticles.setString(2, playername);
-                queryParticles.setString(3, "Disable");
+                queryParticles.setString(1, playername);
+                queryParticles.setString(2, "Disable");
                 queryParticles.executeUpdate();
                 queryParticles.close();
 
                 PreparedStatement querySounds = connection.prepareStatement("INSERT INTO sounds (id, playername, sound) VALUES (null, ?, ?)");
-                querySounds.setString(2, playername);
-                querySounds.setString(3, "Disable");
+                querySounds.setString(1, playername);
+                querySounds.setString(2, "Disable");
                 querySounds.executeUpdate();
                 querySounds.close();
             } catch (SQLException e) {
@@ -110,8 +153,8 @@ public class SQLManager {
         if(isConnected()){
             try {
                 PreparedStatement query = connection.prepareStatement("UPDATE particles SET particle = ? WHERE playername = ?");
-                query.setString(1, playername);
-                query.setString(2, particle);
+                query.setString(1, particle);
+                query.setString(2, playername);
                 query.executeUpdate();
                 query.close();
             } catch (SQLException e) {
@@ -125,8 +168,8 @@ public class SQLManager {
         if(isConnected()){
             try {
                 PreparedStatement query = connection.prepareStatement("UPDATE sounds SET sound = ? WHERE playername = ?");
-                query.setString(1, playername);
-                query.setString(2, sound);
+                query.setString(1, sound);
+                query.setString(2, playername);
                 query.executeUpdate();
                 query.close();
             } catch (SQLException e) {
@@ -142,10 +185,32 @@ public class SQLManager {
                 PreparedStatement query = connection.prepareStatement("SELECT particle FROM particles WHERE playername = ?");
                 query.setString(1, playername);
                 ResultSet result = query.executeQuery();
-                query.close();
+                String particle = null;
                 if(result.next()){
-                    return result.getString("particle");
+                    particle = result.getString("particle");
                 }
+                query.close();
+                return particle;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+
+    public String getSound(String playername){
+        if(isConnected()){
+            try {
+                PreparedStatement query = connection.prepareStatement("SELECT sound FROM sounds WHERE playername = ?");
+                query.setString(1, playername);
+                ResultSet result = query.executeQuery();
+                String sound = null;
+                if(result.next()){
+                    sound = result.getString("sound");
+                }
+                query.close();
+                return sound;
             } catch (SQLException e) {
                 e.printStackTrace();
             }

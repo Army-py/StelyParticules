@@ -31,23 +31,12 @@ public class App extends JavaPlugin implements Listener{
 	public static SQLManager sqlManager;
 
 	public static YamlConfiguration config;
-	public static YamlConfiguration particlesData;
-	public static YamlConfiguration soundsData;
-
-	public static File particlesDataFile;
-	public static File soundsDataFile;
 
 	public void onEnable(){
 		getLogger().info("StelyParticule ON");
 
 		instance = this;
 		this.saveDefaultConfig();
-		
-		particlesData = initFile(this.getDataFolder(), "particlesData.yml");
-		particlesDataFile = new File(this.getDataFolder(), "particlesData.yml");
-
-		soundsData = initFile(this.getDataFolder(), "soundsData.yml");
-		soundsDataFile = new File(this.getDataFolder(), "soundsData.yml");
 
 		config = initFile(this.getDataFolder(), "config.yml");
 		permission = config.getString("permission");
@@ -60,6 +49,7 @@ public class App extends JavaPlugin implements Listener{
             e.printStackTrace();
             getServer().getPluginManager().disablePlugin(this);
         }
+		App.sqlManager.createTables();
 
 		getCommand("stelyparticules").setExecutor(new StelyParticulesCmd());
 		Bukkit.getPluginManager().registerEvents(new ProjectileLaunch(), this);
@@ -83,14 +73,4 @@ public class App extends JavaPlugin implements Listener{
         }
         return YamlConfiguration.loadConfiguration(file);
     }
-
-
-	public static void saveDataFiles(){
-		try {
-			App.particlesData.save(particlesDataFile);
-			App.soundsData.save(soundsDataFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 }
