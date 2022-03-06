@@ -48,15 +48,7 @@ public class SQLManager {
     public void createTables(){
         if (isConnected()){
             try {
-                PreparedStatement queryParticles = connection.prepareStatement("CREATE TABLE IF NOT EXISTS 'particles' ('id' INTEGER, 'playername' TEXT, 'particle' TEXT, PRIMARY KEY('id' AUTOINCREMENT));");
-                queryParticles.executeUpdate();
-                queryParticles.close();
-
-                PreparedStatement querySounds = connection.prepareStatement("CREATE TABLE IF NOT EXISTS 'sounds' ('id' INTEGER, 'playername' TEXT, 'sound' TEXT, PRIMARY KEY('id' AUTOINCREMENT));");
-                querySounds.executeUpdate();
-                querySounds.close();
-
-                PreparedStatement queryPlayers = connection.prepareStatement("CREATE TABLE IF NOT EXISTS 'players' ('id' INTEGER, 'playername' TEXT, PRIMARY KEY('id' AUTOINCREMENT));");
+                PreparedStatement queryPlayers = connection.prepareStatement("CREATE TABLE IF NOT EXISTS 'players' ('id' INTEGER, 'playername' TEXT, 'particle' TEXT, 'sound' TEXT, PRIMARY KEY('id' AUTOINCREMENT));");
                 queryPlayers.executeUpdate();
                 queryPlayers.close();
             } catch (Exception e){
@@ -86,7 +78,7 @@ public class SQLManager {
     public boolean isDisableParticles(String playername){
         if(isConnected()){
             try {
-                PreparedStatement query = connection.prepareStatement("SELECT particle FROM particles WHERE playername = ?");
+                PreparedStatement query = connection.prepareStatement("SELECT particle FROM players WHERE playername = ?");
                 query.setString(1, playername);
                 ResultSet result = query.executeQuery();
                 Boolean disable = null;
@@ -106,7 +98,7 @@ public class SQLManager {
     public boolean isDisableSounds(String playername){
         if(isConnected()){
             try {
-                PreparedStatement query = connection.prepareStatement("SELECT sound FROM sounds WHERE playername = ?");
+                PreparedStatement query = connection.prepareStatement("SELECT sound FROM players WHERE playername = ?");
                 query.setString(1, playername);
                 ResultSet result = query.executeQuery();
                 Boolean disable = null;
@@ -126,22 +118,12 @@ public class SQLManager {
     public void insertPlayer(String playername){
         if(isConnected()){
             try {
-                PreparedStatement queryPlayers = connection.prepareStatement("INSERT INTO players (id, playername) VALUES (null, ?)");
+                PreparedStatement queryPlayers = connection.prepareStatement("INSERT INTO players (id, playername, particle, sound) VALUES (null, ?, ?, ?)");
                 queryPlayers.setString(1, playername);
+                queryPlayers.setString(2, "Disable");
+                queryPlayers.setString(3, "Disable");
                 queryPlayers.executeUpdate();
                 queryPlayers.close();
-
-                PreparedStatement queryParticles = connection.prepareStatement("INSERT INTO particles (id, playername, particle) VALUES (null, ?, ?)");
-                queryParticles.setString(1, playername);
-                queryParticles.setString(2, "Disable");
-                queryParticles.executeUpdate();
-                queryParticles.close();
-
-                PreparedStatement querySounds = connection.prepareStatement("INSERT INTO sounds (id, playername, sound) VALUES (null, ?, ?)");
-                querySounds.setString(1, playername);
-                querySounds.setString(2, "Disable");
-                querySounds.executeUpdate();
-                querySounds.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -152,7 +134,7 @@ public class SQLManager {
     public void updateParticle(String playername, String particle){
         if(isConnected()){
             try {
-                PreparedStatement query = connection.prepareStatement("UPDATE particles SET particle = ? WHERE playername = ?");
+                PreparedStatement query = connection.prepareStatement("UPDATE players SET particle = ? WHERE playername = ?");
                 query.setString(1, particle);
                 query.setString(2, playername);
                 query.executeUpdate();
@@ -167,7 +149,7 @@ public class SQLManager {
     public void updateSound(String playername, String sound){
         if(isConnected()){
             try {
-                PreparedStatement query = connection.prepareStatement("UPDATE sounds SET sound = ? WHERE playername = ?");
+                PreparedStatement query = connection.prepareStatement("UPDATE players SET sound = ? WHERE playername = ?");
                 query.setString(1, sound);
                 query.setString(2, playername);
                 query.executeUpdate();
@@ -182,7 +164,7 @@ public class SQLManager {
     public String getParticle(String playername){
         if(isConnected()){
             try {
-                PreparedStatement query = connection.prepareStatement("SELECT particle FROM particles WHERE playername = ?");
+                PreparedStatement query = connection.prepareStatement("SELECT particle FROM players WHERE playername = ?");
                 query.setString(1, playername);
                 ResultSet result = query.executeQuery();
                 String particle = null;
@@ -202,7 +184,7 @@ public class SQLManager {
     public String getSound(String playername){
         if(isConnected()){
             try {
-                PreparedStatement query = connection.prepareStatement("SELECT sound FROM sounds WHERE playername = ?");
+                PreparedStatement query = connection.prepareStatement("SELECT sound FROM players WHERE playername = ?");
                 query.setString(1, playername);
                 ResultSet result = query.executeQuery();
                 String sound = null;

@@ -1,6 +1,5 @@
 package fr.army.events.InventoryClick;
 
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,25 +13,26 @@ import net.md_5.bungee.api.chat.TextComponent;
 
 public class MainInventory implements Listener{
 	@EventHandler
-	public void invev(InventoryClickEvent e) {
-		if(e.getClickedInventory() != null && e.getCurrentItem() != null) {
-			if(e.getInventory().getViewers().size() != 0 && e.getInventory().getViewers().get(0).getOpenInventory().getTitle().equals("§5§lStelyParticules")) {
-				Player player = (Player) e.getWhoClicked();
-				
-				if(e.getCurrentItem().getType().equals(Material.getMaterial(App.config.getString("main.Particles.itemType")))) {
-					player.openInventory(App.inventory.createParticleInventory(player.getName()));
-				}else if(e.getCurrentItem().getType().equals(Material.getMaterial(App.config.getString("main.Sounds.itemType")))) {
-					player.openInventory(App.inventory.createSoundInventory(player.getName()));
-				}else if(e.getCurrentItem().getType().equals(Material.getMaterial(App.config.getString("main.SoundPack.itemType")))) {
-					soundPackMessage(player);
-					player.closeInventory();
-					player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0F, 1.0F);
-				}
-				e.setCancelled(true);
-			}
+	public void InventoryClick(InventoryClickEvent event) {
+		if(event.getCurrentItem() == null || !App.config.getConfigurationSection("inventories").getValues(true).containsValue(event.getView().getTitle())){
+            return;
+        }
+
+		Player player = (Player) event.getWhoClicked();
+		
+		if(event.getCurrentItem().getItemMeta().getDisplayName().equals(App.config.getString("main.Particles.itemName"))) {
+			player.openInventory(App.inventory.createParticleInventory(player.getName()));
+		}else if(event.getCurrentItem().getItemMeta().getDisplayName().equals(App.config.getString("main.Sounds.itemName"))) {
+			player.openInventory(App.inventory.createSoundInventory(player.getName()));
+		}else if(event.getCurrentItem().getItemMeta().getDisplayName().equals(App.config.getString("main.SoundPack.itemName"))) {
+			soundPackMessage(player);
+			player.closeInventory();
+			player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0F, 1.0F);
 		}
+		event.setCancelled(true);
 	}
 
+	
 	public final static void soundPackMessage(Player player) {
 		final TextComponent component = new TextComponent(TextComponent.fromLegacyText(App.config.getString("prefix")+" "));
 		final ClickEvent click = new ClickEvent(ClickEvent.Action.OPEN_URL, App.config.getString("packUrl"));

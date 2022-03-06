@@ -38,8 +38,12 @@ public class InventoryGenerator {
 			Material material = Material.getMaterial(App.config.getString("particles."+str+".itemType"));
 			String name = App.config.getString("particles."+str+".itemName");
 
-			if (Material.getMaterial(App.config.getString("particles."+App.sqlManager.getParticle(playername)+".itemType")).equals(material)){
-				inventory.setItem(slot, ItemBuilder.getItem(material, name, true));
+			if (App.sqlManager.isRegistered(playername)){
+				if (Material.getMaterial(App.config.getString("particles."+App.sqlManager.getParticle(playername)+".itemType")).equals(material)){
+					inventory.setItem(slot, ItemBuilder.getItem(material, name, true));
+				}else{
+					inventory.setItem(slot, ItemBuilder.getItem(material, name, false));
+				}
 			}else{
 				inventory.setItem(slot, ItemBuilder.getItem(material, name, false));
 			}
@@ -58,9 +62,13 @@ public class InventoryGenerator {
 			Integer slot = App.config.getInt("sounds."+str+".slot");
 			Material material = Material.getMaterial(App.config.getString("sounds."+str+".itemType"));
 			String name = App.config.getString("sounds."+str+".itemName");
-
-			if (Material.getMaterial(App.config.getString("sounds."+App.sqlManager.getSound(playername)+".itemType")).equals(material)){
-				inventory.setItem(slot, ItemBuilder.getItem(material, name, true));
+			
+			if (App.sqlManager.isRegistered(playername)){
+				if (Material.getMaterial(App.config.getString("sounds."+App.sqlManager.getSound(playername)+".itemType")).equals(material)){
+					inventory.setItem(slot, ItemBuilder.getItem(material, name, true));
+				}else{
+					inventory.setItem(slot, ItemBuilder.getItem(material, name, false));
+				}
 			}else{
 				inventory.setItem(slot, ItemBuilder.getItem(material, name, false));
 			}
