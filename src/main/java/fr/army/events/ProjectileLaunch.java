@@ -11,7 +11,7 @@ import fr.army.utils.ParticlesGenerator;
 
 public class ProjectileLaunch implements Listener{
     @EventHandler
-	public void launch(ProjectileLaunchEvent e) {
+	public void projectileLaunch(ProjectileLaunchEvent e) {
 		if(e.getEntity().getShooter() instanceof Player) {
 			Player player = (Player) e.getEntity().getShooter();
 			if (!player.hasPermission(App.permission)) return;
@@ -23,9 +23,7 @@ public class ProjectileLaunch implements Listener{
 						player.getWorld().playSound(player.getLocation(), sound, 1.0F, 1.0F);
 					}
 				}
-			}
 
-			if(App.sqlManager.isRegistered(player.getName())) {
 				if (App.config.getStringList("particlesProjectiles").contains(e.getEntityType().toString())) {
 					if (!App.sqlManager.isDisableParticles(player.getName())) {
 						Particle particle = Particle.valueOf(App.config.getString("particles."+App.sqlManager.getParticle(player.getName())+".particle"));

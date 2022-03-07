@@ -5,15 +5,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
 
 import fr.army.App;
+import fr.army.utils.InventoryGenerator;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
 
 public class MainInventory implements Listener{
 	@EventHandler
-	public void InventoryClick(InventoryClickEvent event) {
+	public void inventoryClick(InventoryClickEvent event) {
 		if(event.getCurrentItem() == null || !App.config.getConfigurationSection("inventories").getValues(true).containsValue(event.getView().getTitle())){
             return;
         }
@@ -21,9 +23,11 @@ public class MainInventory implements Listener{
 		Player player = (Player) event.getWhoClicked();
 		
 		if(event.getCurrentItem().getItemMeta().getDisplayName().equals(App.config.getString("main.Particles.itemName"))) {
-			player.openInventory(App.inventory.createParticleInventory(player.getName()));
+			Inventory inventory = InventoryGenerator.createMainInventory();
+			player.openInventory(inventory);
 		}else if(event.getCurrentItem().getItemMeta().getDisplayName().equals(App.config.getString("main.Sounds.itemName"))) {
-			player.openInventory(App.inventory.createSoundInventory(player.getName()));
+			Inventory inventory = InventoryGenerator.createSoundInventory(player.getName());
+			player.openInventory(inventory);
 		}else if(event.getCurrentItem().getItemMeta().getDisplayName().equals(App.config.getString("main.SoundPack.itemName"))) {
 			soundPackMessage(player);
 			player.closeInventory();

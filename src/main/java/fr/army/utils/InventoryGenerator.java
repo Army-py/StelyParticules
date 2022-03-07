@@ -9,7 +9,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import fr.army.App;
 
 public class InventoryGenerator {	
-	public Inventory createMainInventory() {
+	public static Inventory createMainInventory() {
 		Integer slots = App.config.getInt("inventories.main.slots");
 		String inventoryName = App.config.getString("inventories.main.name");
 		Inventory inventory = Bukkit.createInventory(null, slots, inventoryName);
@@ -27,7 +27,7 @@ public class InventoryGenerator {
 	}
 
 
-	public Inventory createParticleInventory(String playername) {
+	public static Inventory createParticleInventory(String playername) {
 		Integer slots = App.config.getInt("inventories.particles.slots");
 		String inventoryName = App.config.getString("inventories.particles.name");
 		Inventory inventory = Bukkit.createInventory(null, slots, inventoryName);
@@ -52,7 +52,7 @@ public class InventoryGenerator {
 	}
 
 
-	public Inventory createSoundInventory(String playername) {
+	public static Inventory createSoundInventory(String playername) {
 		Integer slots = App.config.getInt("inventories.sounds.slots");
 		String inventoryName = App.config.getString("inventories.sounds.name");
 		Inventory inventory = Bukkit.createInventory(null, slots, inventoryName);
@@ -77,7 +77,7 @@ public class InventoryGenerator {
 	}
 
 
-	public void emptyCases(Inventory inventory, Integer slots) {
+	private static void emptyCases(Inventory inventory, Integer slots) {
 		ItemStack item = new ItemStack(Material.getMaterial(App.config.getString("emptyCase")), 1);
 		ItemMeta meta = item.getItemMeta();
 		meta.setDisplayName(" ");

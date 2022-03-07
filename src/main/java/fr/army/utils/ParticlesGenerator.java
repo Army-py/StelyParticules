@@ -26,7 +26,6 @@ public class ParticlesGenerator extends BukkitRunnable {
 
 	@Override
 	public void run(){
-		stop++;
 		Location location = projectile.getLocation();
 		Vector direction = location.getDirection().normalize();
 		double x = direction.getX() * 0;
@@ -39,5 +38,7 @@ public class ParticlesGenerator extends BukkitRunnable {
 		if (stop == App.config.getInt("maximumParticlesNumber")){
 			this.cancel();
 		}
+		
+		stop++;
 	}
 }

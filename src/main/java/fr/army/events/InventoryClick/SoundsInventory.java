@@ -5,12 +5,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
 
 import fr.army.App;
+import fr.army.utils.InventoryGenerator;
 
 public class SoundsInventory implements Listener{
 	@EventHandler
-	public void invev(InventoryClickEvent event) {
+	public void inventoryClick(InventoryClickEvent event) {
 		if(event.getCurrentItem() == null || !App.config.getConfigurationSection("inventories").getValues(true).containsValue(event.getView().getTitle())){
             return;
         }
@@ -25,7 +27,8 @@ public class SoundsInventory implements Listener{
 			String itemName = App.config.getString("sounds."+str+".itemName");
 			
 			if(event.getCurrentItem().getItemMeta().getDisplayName().equals(App.config.getString("sounds.Back.itemName"))) {
-				player.openInventory(App.inventory.createMainInventory());
+				Inventory inventory = InventoryGenerator.createMainInventory();
+				player.openInventory(inventory);
 			}else if(event.getCurrentItem().getItemMeta().getDisplayName().equals(itemName)) {
 				App.sqlManager.updateSound(player.getName(), str);
 				event.getWhoClicked().closeInventory();

@@ -17,24 +17,15 @@ import fr.army.events.ProjectileLaunch;
 import fr.army.events.InventoryClick.MainInventory;
 import fr.army.events.InventoryClick.ParticlesInventory;
 import fr.army.events.InventoryClick.SoundsInventory;
-import fr.army.utils.InventoryGenerator;
 import fr.army.utils.SQLManager;
 
 public class App extends JavaPlugin implements Listener{
-
-	public static InventoryGenerator inventory = new InventoryGenerator();
-
 	public static String permission;
-
 	public static Plugin instance;
-
 	public static SQLManager sqlManager;
-
 	public static YamlConfiguration config;
 
 	public void onEnable(){
-		getLogger().info("StelyParticule ON");
-
 		instance = this;
 		this.saveDefaultConfig();
 
@@ -56,6 +47,8 @@ public class App extends JavaPlugin implements Listener{
 		Bukkit.getPluginManager().registerEvents(new MainInventory(), this);
 		Bukkit.getPluginManager().registerEvents(new ParticlesInventory(), this);
 		Bukkit.getPluginManager().registerEvents(new SoundsInventory(), this);
+
+		getLogger().info("StelyParticule ON");
 	}
 
 
