@@ -1,4 +1,4 @@
-package fr.army.utils;
+package fr.army.stelyparticules.utils;
 
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -7,7 +7,7 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import fr.army.App;
+import fr.army.stelyparticules.StelyParticulesPlugin;
 
 public class ParticlesGenerator extends BukkitRunnable {
 	Projectile projectile;
@@ -35,7 +35,7 @@ public class ParticlesGenerator extends BukkitRunnable {
 		player.getLocation().getWorld().spawnParticle(particle, location, 1);
 		location.subtract(x, y, z);
 
-		if (stop == App.config.getInt("maximumParticlesNumber")){
+		if (stop == StelyParticulesPlugin.config.getInt("maximumParticlesNumber")){
 			this.cancel();
 		}
 		

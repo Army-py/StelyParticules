@@ -1,4 +1,4 @@
-package fr.army.utils;
+package fr.army.stelyparticules.utils;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;

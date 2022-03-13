@@ -1,4 +1,4 @@
-package fr.army.utils;
+package fr.army.stelyparticules.utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,13 +6,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import fr.army.App;
+import fr.army.stelyparticules.StelyParticulesPlugin;
 
-public class SQLManager {
+public class SQLiteManager {
     private String database;
     private Connection connection;
 
-    public SQLManager() {
+    public SQLiteManager() {
         this.database = "data.db";
     }
 
@@ -24,7 +24,7 @@ public class SQLManager {
 
     public void connect() throws ClassNotFoundException, SQLException{
         if(!isConnected()){
-            this.connection = DriverManager.getConnection("jdbc:sqlite:"+App.instance.getDataFolder().getAbsolutePath()+"/"+this.database);
+            this.connection = DriverManager.getConnection("jdbc:sqlite:"+StelyParticulesPlugin.instance.getDataFolder().getAbsolutePath()+"/"+this.database);
         }
     }
 

@@ -1,4 +1,4 @@
-package fr.army;
+package fr.army.stelyparticules;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,17 +12,17 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import fr.army.commands.StelyParticulesCmd;
-import fr.army.events.ProjectileLaunch;
-import fr.army.events.InventoryClick.MainInventory;
-import fr.army.events.InventoryClick.ParticlesInventory;
-import fr.army.events.InventoryClick.SoundsInventory;
-import fr.army.utils.SQLManager;
+import fr.army.stelyparticules.commands.StelyParticulesCmd;
+import fr.army.stelyparticules.events.ProjectileLaunch;
+import fr.army.stelyparticules.events.InventoryClick.MainInventory;
+import fr.army.stelyparticules.events.InventoryClick.ParticlesInventory;
+import fr.army.stelyparticules.events.InventoryClick.SoundsInventory;
+import fr.army.stelyparticules.utils.SQLiteManager;
 
-public class App extends JavaPlugin implements Listener{
+public class StelyParticulesPlugin extends JavaPlugin implements Listener{
 	public static String permission;
 	public static Plugin instance;
-	public static SQLManager sqlManager;
+	public static SQLiteManager sqlManager;
 	public static YamlConfiguration config;
 
 	public void onEnable(){
@@ -32,7 +32,7 @@ public class App extends JavaPlugin implements Listener{
 		config = initFile(this.getDataFolder(), "config.yml");
 		permission = config.getString("permission");
 		
-		App.sqlManager = new SQLManager();
+		StelyParticulesPlugin.sqlManager = new SQLiteManager();
         try {
             sqlManager.connect();
             this.getLogger().info("SQL connectée au plugin !");
@@ -40,7 +40,7 @@ public class App extends JavaPlugin implements Listener{
             e.printStackTrace();
             getServer().getPluginManager().disablePlugin(this);
         }
-		App.sqlManager.createTables();
+		StelyParticulesPlugin.sqlManager.createTables();
 
 		getCommand("stelyparticules").setExecutor(new StelyParticulesCmd());
 		Bukkit.getPluginManager().registerEvents(new ProjectileLaunch(), this);
