@@ -23,7 +23,7 @@ public class MainInventory implements Listener{
 		Player player = (Player) event.getWhoClicked();
 		
 		if(event.getCurrentItem().getItemMeta().getDisplayName().equals(StelyParticulesPlugin.config.getString("main.Particles.itemName"))) {
-			Inventory inventory = InventoryGenerator.createMainInventory();
+			Inventory inventory = InventoryGenerator.createParticleInventory(player.getName());
 			player.openInventory(inventory);
 		}else if(event.getCurrentItem().getItemMeta().getDisplayName().equals(StelyParticulesPlugin.config.getString("main.Sounds.itemName"))) {
 			Inventory inventory = InventoryGenerator.createSoundInventory(player.getName());
